@@ -49,12 +49,14 @@ function operate(num1, operator, num2) {
 }
 
 function getResult(input) {
-  console.log(input)
   let nums = input.split(" ")
+
+  //Returns an ERROR if the user forgets to put another number after an operator
   if (nums.filter(e => e).length < 3) {
     display.textContent = 'ERROR'
     return
   }
+
   while (nums.length > 1) {
     let num1 = nums.shift()
     let operator = nums.shift()
@@ -70,11 +72,13 @@ function getResult(input) {
     let result = operate(parseFloat(num1), operator, parseFloat(num2))
     nums.unshift(result)
   }
+  
   display.textContent = parseFloat(nums[0].toFixed(5));
   solution = parseFloat(nums[0].toFixed(5));
   return parseFloat(nums.shift().toFixed(5));
 }
 
+//Used in getResult to ensure a number doesn't have more than one decimal
 function countDecimals(str, decimal) {
   let count = 0;
   for (let i = 0; i < str.length; i++) {
@@ -85,11 +89,13 @@ function countDecimals(str, decimal) {
   return count;
 }
 
+//Clears the entire display and any stored input when 'CLEAR' button is pressed
 function clearDisplay() {
   display.textContent = ''
   input = ''
 }
 
+//Deletes last inputted number or operator on screen
 function deleteInput() {
   let newInput = ""
   if (input.charAt(input.length - 1) === " ") {
@@ -101,6 +107,7 @@ function deleteInput() {
   updateDisplay(newInput);
 }
 
+//Updates calculator screen when a button is pressed
 function updateDisplay(char) {
   if (display.textContent === 'ERROR' || display.textContent == solution) {
     clearDisplay();
