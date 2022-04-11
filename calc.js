@@ -16,7 +16,9 @@ const minus = document.getElementById('-')
 const plus = document.getElementById('+')
 const divid = document.getElementById('÷')
 const multip = document.getElementById('x')
-
+const decimal = document.getElementById('.')
+let input = ''
+let solution = ''
 
 function add(num1, num2) {
   return num1 + num2
@@ -61,15 +63,27 @@ function getResult(input) {
       alert('Error: Cannot divide by zero!')
       clearDisplay();
       return
+    } else if ((countDecimals(num1, '.') > 1) || (countDecimals(num2, '.') > 1)) {
+      alert('You cannot have more than one decimal in a number!')
+      return
     }
-    let result = operate(parseInt(num1), operator, parseInt(num2))
+    let result = operate(parseFloat(num1), operator, parseFloat(num2))
     nums.unshift(result)
   }
   display.textContent = parseFloat(nums[0].toFixed(5));
+  solution = parseFloat(nums[0].toFixed(5));
   return parseFloat(nums.shift().toFixed(5));
 }
 
-let input = ''
+function countDecimals(str, decimal) {
+  let count = 0;
+  for (let i = 0; i < str.length; i++) {
+    if (str.charAt(i) == decimal) {
+      count += 1;
+    }
+  }
+  return count;
+}
 
 function clearDisplay() {
   display.textContent = ''
@@ -88,7 +102,7 @@ function deleteInput() {
 }
 
 function updateDisplay(char) {
-  if (display.textContent === 'ERROR') {
+  if (display.textContent === 'ERROR' || display.textContent == solution) {
     clearDisplay();
   }
   if (input.length >= 15) {
@@ -116,3 +130,4 @@ multip.addEventListener('click', () => updateDisplay(' × '))
 divid.addEventListener('click', () => updateDisplay(' ÷ '))
 equal.addEventListener('click', () => getResult(input))
 deleteBtn.addEventListener('click', () => deleteInput())
+decimal.addEventListener('click', () => updateDisplay('.'))
