@@ -76,6 +76,17 @@ function clearDisplay() {
   input = ''
 }
 
+function deleteInput() {
+  let newInput = ""
+  if (input.charAt(input.length - 1) === " ") {
+    newInput = input.slice(0, -3)
+  } else {
+    newInput = input.slice(0, -1);
+  }
+  clearDisplay();
+  updateDisplay(newInput);
+}
+
 function updateDisplay(char) {
   if (display.textContent === 'ERROR') {
     clearDisplay();
@@ -104,3 +115,4 @@ minus.addEventListener('click', () => updateDisplay(' - '))
 multip.addEventListener('click', () => updateDisplay(' × '))
 divid.addEventListener('click', () => updateDisplay(' ÷ '))
 equal.addEventListener('click', () => getResult(input))
+deleteBtn.addEventListener('click', () => deleteInput())
