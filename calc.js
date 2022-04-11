@@ -54,11 +54,19 @@ function getResult(input) {
     return
   }
   while (nums.length > 1) {
-    let result = operate(parseInt(nums.shift()), nums.shift(), parseInt(nums.shift()))
+    let num1 = nums.shift()
+    let operator = nums.shift()
+    let num2 = nums.shift()
+    if (operator === '÷' && num2 === '0') {
+      alert('Error: Cannot divide by zero!')
+      clearDisplay();
+      return
+    }
+    let result = operate(parseInt(num1), operator, parseInt(num2))
     nums.unshift(result)
   }
-  display.textContent = nums[0].toFixed(5)
-  return nums.shift().toFixed(5)
+  display.textContent = parseFloat(nums[0].toFixed(5));
+  return parseFloat(nums.shift().toFixed(5));
 }
 
 let input = ''
@@ -71,6 +79,10 @@ function clearDisplay() {
 function updateDisplay(char) {
   if (display.textContent === 'ERROR') {
     clearDisplay();
+  }
+  if (input.length >= 15) {
+    alert('You cannot make any more inputs')
+    return
   }
   display.textContent += char
   input += char
